@@ -1,19 +1,24 @@
 // Content Script
 console.log('Content script loaded on:', window.location.href)
 
+interface Message {
+  type: string
+  data?: string
+}
+
 // 监听来自 popup 的消息
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
   console.log('Content script received message:', message)
 
   if (message.type === 'GREETING') {
     // 在页面上显示通知
-    showNotification(message.data)
+    showNotification(message.data ?? '')
     sendResponse({ received: true })
   }
 })
 
 // 显示通知函数
-function showNotification(text) {
+function showNotification(text: string): void {
   // 移除已存在的通知
   const existing = document.getElementById('vue-extension-notification')
   if (existing) {

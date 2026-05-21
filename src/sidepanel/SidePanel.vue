@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const currentTime = ref('')
-const tabCount = ref(0)
-let timer = null
+const currentTime = ref<string>('')
+const tabCount = ref<number>(0)
+let timer: ReturnType<typeof setInterval> | null = null
 
-const updateTime = () => {
+const updateTime = (): void => {
   currentTime.value = new Date().toLocaleTimeString('zh-CN')
 }
 

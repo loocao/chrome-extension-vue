@@ -7,6 +7,6 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 // 点击扩展图标时打开侧边栏
-chrome.action.onClicked.addListener((tab) => {
-  chrome.sidePanel.open({ tabId: tab.id })
+chrome.action.onClicked.addListener((tab: chrome.tabs.Tab) => {
+  chrome.sidePanel.open({ tabId: tab.id! })
 })
