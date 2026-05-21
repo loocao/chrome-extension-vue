@@ -3,10 +3,25 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const currentTime = ref<string>('')
 const tabCount = ref<number>(0)
+const htmlContent = ref<string>('')
+const loading = ref<boolean>(false)
 let timer: ReturnType<typeof setInterval> | null = null
 
 const updateTime = (): void => {
   currentTime.value = new Date().toLocaleTimeString('zh-CN')
+}
+
+const loadHtml = (): void => {
+  loading.value = true
+  htmlContent.value = ''
+  chrome.runtime.sendMessage({ type: 'GET_HTML' }, (response) => {
+    loading.value = false
+    if (response?.error) {
+      htmlContent.value = `错误: ${response.error}`
+    } else {
+      htmlContent.value = response?.html ?? ''
+    }
+  })
 }
 
 onMounted(async () => {
@@ -44,6 +59,21 @@ onUnmounted(() => {
       <p class="text-4xl font-bold text-purple-600 text-center">
         {{ tabCount }}
       </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-4">
+      <button
+        class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50"
+        :disabled="loading"
+        @click="loadHtml"
+      >
+        {{ loading ? '加载中...' : '加载 HTML' }}
+      </button>
+
+      <div v-if="htmlContent" class="mt-4">
+        <p class="text-gray-600 text-sm mb-2">页面 HTML 内容:</p>
+        <pre class="bg-gray-100 rounded-lg p-3 text-xs overflow-auto max-h-96 whitespace-pre-wrap break-all">{{ htmlContent }}</pre>
+      </div>
     </div>
 
     <p class="text-xs text-gray-500 text-center mt-4">

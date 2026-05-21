@@ -25,7 +25,7 @@
       "js": ["content.js"]
     }
   ],
-  "permissions": ["activeTab", "storage", "sidePanel"],
+  "permissions": ["activeTab", "storage", "sidePanel", "scripting"],
   "side_panel": {
     "default_path": "sidepanel.html"
   }
