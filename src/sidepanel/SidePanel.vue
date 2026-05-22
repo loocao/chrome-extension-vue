@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+// ref, onMounted, onUnmounted 现在自动导入，无需手动 import
 
 const currentTime = ref<string>('')
 const tabCount = ref<number>(0)
@@ -76,8 +76,13 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <!-- 测试自动导入组件 -->
+    <div class="text-center">
+      <HelloButton />
+    </div>
+
     <p class="text-xs text-gray-500 text-center mt-4">
-      Side Panel - Vue 3 + TailwindCSS
+      Side Panel - Vue 3 + TailwindCSS + 自动导入
     </p>
   </div>
 </template>
